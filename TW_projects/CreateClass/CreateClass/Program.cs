@@ -31,32 +31,39 @@ namespace CreateClass
         }
     }
 
-    class Employee : Person
+    class Employee : Person, ICloneable
     {
         public int Salary { get; private set; }
         public string Profession { get; private set; }
-        public Room room { get; private set; }
+        public Room Room { get; set; }
 
-        public Employee(string Name, DateTime BirthDate, Genders Gender, int Salary, string Profession, Room room) : base(Name, BirthDate, Gender)
+        public Employee(string Name, DateTime BirthDate, Genders Gender, int Salary, string Profession, Room Room) : base(Name, BirthDate, Gender)
         {
             this.Salary = Salary;
             this.Profession = Profession;
-            this.room = room;
+            this.Room = Room;
         }
 
         public override string ToString()
         {
-            return "Employee: " + Name + ", " + BirthDate + ", " + Gender + ", " + Salary;
+            return "Employee: " + Name + ", " + BirthDate + ", " + Gender + ", " + Salary + ", " + Room.Number;
+        }
+
+        public object Clone()
+        {
+            Employee newEmployee = (Employee)this.MemberwiseClone();
+            newEmployee.Room = new Room(Room.Number);
+            return newEmployee;
         }
     }
 
     class Room
     {
-        public int RoomNumber { get; private set; }
+        public int Number { get; set; }
         
-        public Room(int RoomNumber)
+        public Room(int Number)
         {
-            this.RoomNumber = RoomNumber;
+            this.Number = Number;
         }
     }
 
@@ -64,8 +71,12 @@ namespace CreateClass
     {
         static void Main(string[] args)
         {
-            Person Pistike = new Employee("Pistike", new DateTime(2000, 01, 02), Genders.Male, 2000, "Worker", new Room(200));
-            Console.WriteLine(Pistike);
+            Employee Kovacs = new Employee("Géza", DateTime.Now, Genders.Male, 1000, "léhűtő", new Room(111));
+            Employee Kovacs2 = (Employee)Kovacs.Clone();
+            Kovacs2.Room.Number = 112;
+            Console.WriteLine(Kovacs.ToString());
+            Console.WriteLine(Kovacs2.ToString());
+            Console.ReadKey();
         }
     }
 
