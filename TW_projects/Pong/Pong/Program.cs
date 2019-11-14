@@ -9,7 +9,7 @@ namespace Pong
     static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// The main entry point for the application. Some new text
         /// </summary>
         [STAThread]
         static void Main()
